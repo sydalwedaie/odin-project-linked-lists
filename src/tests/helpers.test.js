@@ -1,13 +1,18 @@
 import { describe, test, expect } from "@jest/globals";
-import { LinkedList, Node } from "../modules.js";
+import { makeList } from "../helpers.js";
 
-describe("Test helper methods", () => {
-  test("test getList", () => {
-    const list = LinkedList();
-    expect(list.getList()).toEqual({});
+describe("Test helper functions", () => {
+  test("test makeList with one value", () => {
+    const expected = { value: 1, next: null };
+    expect(makeList(1)).toEqual(expected);
   });
 
-  test("test initSample", () => {
+  test("test makeList with two value", () => {
+    const expected = { value: 1, next: { value: 2, next: null } };
+    expect(makeList(1, 2)).toEqual(expected);
+  });
+
+  test("test makeList with many values", () => {
     const expected = {
       value: 1,
       next: {
@@ -22,15 +27,6 @@ describe("Test helper methods", () => {
       },
     };
 
-    const list = LinkedList();
-    list.initSample();
-    expect(list.getList()).toEqual(expected);
-  });
-
-  test("test reset", () => {
-    const list = LinkedList();
-    list.initSample();
-    list.reset();
-    expect(list.getList()).toEqual({});
+    expect(makeList(1, 2, 3, 4)).toEqual(expected);
   });
 });

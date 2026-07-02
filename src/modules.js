@@ -14,10 +14,24 @@ export function LinkedList() {
     },
   };
 
+  // helper methods
+
+  function makeList(values) {
+    if (values.length === 0) return null;
+    return Node(values[0], makeList(values.slice(1)));
+  }
+
+  function makeArray(list) {
+    if (list.next === null) return [list.value];
+    return [list.value, makeArray(list.next)].flat();
+  }
+
+  // Auxillary methods
   const getList = () => list;
   const initSample = () => (list = sampleList);
   const reset = () => (list = {});
 
+  // Required methods
   const append = (value, node = list) => {
     if (JSON.stringify(node) === "{}") {
       list = Node(value);
@@ -122,17 +136,8 @@ export function LinkedList() {
     return (string += "null");
   };
 
+  // Extra Credit
   const insertAt = (index, ...values) => {
-    function makeList(values) {
-      if (values.length === 0) return null;
-      return Node(values[0], makeList(values.slice(1)));
-    }
-
-    function makeArray(list) {
-      if (list.next === null) return list.value;
-      return [list.value, makeArray(list.next)].flat();
-    }
-
     if (index < 0 || index > size()) {
       throw new RangeError("Index out of bound.");
     } else if (size() === 0) {
@@ -141,6 +146,18 @@ export function LinkedList() {
       const array = makeArray(list);
       array.splice(index, 0, ...values);
       list = makeList(array);
+    }
+  };
+
+  const removeAt = (index) => {
+    if (size() === 0) {
+      list = {};
+    } else if (index < 0 || index > size()) {
+      throw new RangeError("Index out of bound.");
+    } else {
+      const array = makeArray(list);
+      array.splice(index, 1);
+      list = makeList(array) || {};
     }
   };
 
@@ -159,6 +176,7 @@ export function LinkedList() {
     findIndex,
     toString,
     insertAt,
+    removeAt,
   };
 }
 

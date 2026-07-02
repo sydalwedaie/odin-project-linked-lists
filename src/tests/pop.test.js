@@ -1,5 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import { LinkedList, Node } from "../modules.js";
+import { makeList } from "../helpers.js";
 
 describe("Test pop", () => {
   const list = LinkedList();
@@ -24,16 +25,8 @@ describe("Test pop", () => {
 
   test("test on multi-node list", () => {
     const expectedValue = 1;
-    const expectedList = {
-      value: 2,
-      next: {
-        value: 3,
-        next: {
-          value: 4,
-          next: null,
-        },
-      },
-    };
+    const expectedList = makeList(2, 3, 4);
+
     list.initSample();
     expect(list.pop()).toEqual(expectedValue);
     expect(list.getList()).toEqual(expectedList);

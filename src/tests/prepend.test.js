@@ -1,5 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import { LinkedList, Node } from "../modules.js";
+import { makeList } from "../helpers.js";
 
 describe("Test prepend", () => {
   const list = LinkedList();
@@ -9,19 +10,13 @@ describe("Test prepend", () => {
   });
 
   test("test on empty list", () => {
-    const expected = { value: "prepend", next: null };
+    const expected = makeList("prepend");
     list.prepend("prepend");
     expect(list.getList()).toEqual(expected);
   });
 
   test("test on single-node list", () => {
-    const expected = {
-      value: "prepend",
-      next: {
-        value: 1,
-        next: null,
-      },
-    };
+    const expected = makeList("prepend", 1);
 
     list.append(1);
     list.prepend("prepend");
@@ -30,22 +25,7 @@ describe("Test prepend", () => {
   });
 
   test("test on multi-node list", () => {
-    const expected = {
-      value: "prepend",
-      next: {
-        value: 1,
-        next: {
-          value: 2,
-          next: {
-            value: 3,
-            next: {
-              value: 4,
-              next: null,
-            },
-          },
-        },
-      },
-    };
+    const expected = makeList("prepend", 1, 2, 3, 4);
 
     list.initSample();
     list.prepend("prepend");

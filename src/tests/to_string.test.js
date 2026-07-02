@@ -1,7 +1,7 @@
 import { describe, test, expect } from "@jest/globals";
 import { LinkedList, Node } from "../modules.js";
 
-describe.only("Test toString", () => {
+describe("Test toString", () => {
   const list = LinkedList();
 
   afterEach(() => {
