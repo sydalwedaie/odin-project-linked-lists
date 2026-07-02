@@ -122,6 +122,28 @@ export function LinkedList() {
     return (string += "null");
   };
 
+  const insertAt = (index, ...values) => {
+    function makeList(values) {
+      if (values.length === 0) return null;
+      return Node(values[0], makeList(values.slice(1)));
+    }
+
+    function makeArray(list) {
+      if (list.next === null) return list.value;
+      return [list.value, makeArray(list.next)].flat();
+    }
+
+    if (index < 0 || index > size()) {
+      throw new RangeError("Index out of bound.");
+    } else if (size() === 0) {
+      list = makeList(values);
+    } else {
+      const array = makeArray(list);
+      array.splice(index, 0, ...values);
+      list = makeList(array);
+    }
+  };
+
   return {
     getList,
     initSample,
@@ -136,6 +158,7 @@ export function LinkedList() {
     contains,
     findIndex,
     toString,
+    insertAt,
   };
 }
 

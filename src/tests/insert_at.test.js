@@ -1,7 +1,7 @@
 import { describe, test, expect } from "@jest/globals";
 import { LinkedList, Node } from "../modules.js";
 
-describe.skip("Test insertAt", () => {
+describe("Test insertAt", () => {
   const list = LinkedList();
 
   afterEach(() => {
@@ -10,9 +10,8 @@ describe.skip("Test insertAt", () => {
 
   test("test one value on empty list", () => {
     const expected = Node("one value");
-    expect(list.insertAt(0, "one value")).toEqual(expected);
-    list.reset();
-    expect(list.insertAt(3, "one value")).toEqual(expected);
+    list.insertAt(0, "one value");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test one value on index 0", () => {
@@ -34,7 +33,8 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(0, "one value")).toEqual(expected);
+    list.insertAt(0, "one value");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test one value on index 1", () => {
@@ -56,7 +56,8 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(1, "one value")).toEqual(expected);
+    list.insertAt(1, "one value");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test one value on last index", () => {
@@ -78,7 +79,8 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(4, "one value")).toEqual(expected);
+    list.insertAt(4, "one value");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test many values on empty list", () => {
@@ -93,7 +95,8 @@ describe.skip("Test insertAt", () => {
       },
     };
 
-    expect(list.insertAt(0, "value 1", "value 2", "value 3")).toEqual(expected);
+    list.insertAt(0, "value 1", "value 2", "value 3");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test many values on index 0", () => {
@@ -121,7 +124,8 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(0, "value 1", "value 2", "value 3")).toEqual(expected);
+    list.insertAt(0, "value 1", "value 2", "value 3");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test many values on index 1", () => {
@@ -149,7 +153,8 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(1, "value 1", "value 2", "value 3")).toEqual(expected);
+    list.insertAt(1, "value 1", "value 2", "value 3");
+    expect(list.getList()).toEqual(expected);
   });
 
   test("test many values on last index", () => {
@@ -177,6 +182,16 @@ describe.skip("Test insertAt", () => {
     };
 
     list.initSample();
-    expect(list.insertAt(4, "value 1", "value 2", "value 3")).toEqual(expected);
+    list.insertAt(4, "value 1", "value 2", "value 3");
+    expect(list.getList()).toEqual(expected);
+  });
+
+  test("test out of bound index", () => {
+    const expected = "Index out of bound.";
+    list.initSample();
+
+    expect(() => {
+      list.insertAt(20, "out of bound");
+    }).toThrow();
   });
 });
