@@ -121,16 +121,14 @@ export function LinkedList() {
   };
 
   const toString = () => {
-    if (size() === 0) return "";
-
-    let currentNode = list;
-    let string = `( ${currentNode.value} ) -> `;
-    while (currentNode.next !== null) {
-      currentNode = currentNode.next;
-      string += `( ${currentNode.value} ) -> `;
+    function traverse(list) {
+      let string = `( ${list.value} ) -> `;
+      if (list.next === null) return (string += "null");
+      return string + traverse(list.next);
     }
 
-    return (string += "null");
+    if (size() === 0) return "";
+    return traverse(list);
   };
 
   // Extra Credit
