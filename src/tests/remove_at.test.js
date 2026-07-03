@@ -30,9 +30,7 @@ describe("test removeAt", () => {
   });
 
   test("test out of bound index", () => {
-    const expected = "Index out of bound.";
     list.initSample();
-
     expect(() => {
       list.removeAt(20);
     }).toThrow();

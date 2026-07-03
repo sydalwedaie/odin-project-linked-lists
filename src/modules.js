@@ -14,10 +14,10 @@ export function LinkedList() {
     },
   };
 
-  // helper methods
-
+  // Private helper methods
   function makeList(values) {
-    if (values.length === 0) return null;
+    if (values.length === 0) return {};
+    if (values.length === 1) return Node(values[0]);
     return Node(values[0], makeList(values.slice(1)));
   }
 
@@ -32,50 +32,47 @@ export function LinkedList() {
   const reset = () => (list = {});
 
   // Required methods
-  const append = (value, node = list) => {
-    if (JSON.stringify(node) === "{}") {
+  const append = (value) => {
+    function traverse(value, list) {
+      if (list.next === null) list.next = Node(value);
+      else traverse(value, list.next);
+    }
+
+    if (size() === 0) {
       list = Node(value);
-    } else if (node.next === null) {
-      node.next = Node(value);
     } else {
-      append(value, node.next);
+      traverse(value, list);
     }
   };
 
   const prepend = (value) => {
-    if (JSON.stringify(list) === "{}") {
-      list = Node(value);
-    } else {
-      list = Node(value, list);
-    }
+    list = size() === 0 ? Node(value) : Node(value, list);
   };
 
-  const size = (node = list) => {
+  const size = () => {
     if (JSON.stringify(list) === "{}") {
       return 0;
-    } else if (node.next === null) {
-      return 1;
-    } else {
-      return 1 + size(node.next);
     }
+
+    function traverse(list) {
+      if (list.next === null) return 1;
+      return 1 + traverse(list.next);
+    }
+
+    return traverse(list);
   };
 
   const head = () => {
-    if (JSON.stringify(list) === "{}") {
-      return undefined;
-    } else {
-      return list.value;
-    }
+    return size() === 0 ? undefined : list.value;
   };
 
-  const tail = (node = list) => {
-    if (JSON.stringify(node) === "{}") {
-      return undefined;
-    } else if (node.next === null) {
-      return node.value;
-    } else {
-      return tail(node.next);
+  const tail = () => {
+    function traverse(list) {
+      if (list.next === null) return list.value;
+      return traverse(list.next);
     }
+
+    return size() === 0 ? undefined : traverse(list);
   };
 
   const at = (index) => {
@@ -157,7 +154,7 @@ export function LinkedList() {
     } else {
       const array = makeArray(list);
       array.splice(index, 1);
-      list = makeList(array) || {};
+      list = makeList(array);
     }
   };
 
@@ -180,9 +177,9 @@ export function LinkedList() {
   };
 }
 
-export function Node(value = null, nextNode = null) {
+export function Node(value, nextNode) {
   return {
-    value: value,
-    next: nextNode,
+    value: value || null,
+    next: nextNode || null,
   };
 }
