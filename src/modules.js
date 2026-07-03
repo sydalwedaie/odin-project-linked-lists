@@ -50,15 +50,12 @@ export function LinkedList() {
   };
 
   const size = () => {
-    if (JSON.stringify(list) === "{}") {
-      return 0;
-    }
-
     function traverse(list) {
       if (list.next === null) return 1;
       return 1 + traverse(list.next);
     }
 
+    if (JSON.stringify(list) === "{}") return 0;
     return traverse(list);
   };
 
@@ -94,6 +91,7 @@ export function LinkedList() {
       // Handle single and multi-node at the same time
       list = list.next || {};
     }
+
     return headNodeValue;
   };
 
@@ -104,6 +102,7 @@ export function LinkedList() {
     while (currentNode.value !== value && currentNode.next !== null) {
       currentNode = currentNode.next;
     }
+
     return currentNode.value === value;
   };
 
