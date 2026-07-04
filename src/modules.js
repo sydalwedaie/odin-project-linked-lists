@@ -12,7 +12,8 @@ export function LinkedList() {
   function makeList(values) {
     if (values.length === 0) return {};
     if (values.length === 1) return Node(values[0]);
-    return Node(values[0], makeList(values.slice(1)));
+    const nextNode = makeList(values.slice(1));
+    return Node(values[0], nextNode);
   }
 
   function makeArray(list) {
