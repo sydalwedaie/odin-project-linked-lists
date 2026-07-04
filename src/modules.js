@@ -1,18 +1,12 @@
+export function Node(value, nextNode) {
+  return {
+    value: value || null,
+    next: nextNode || null,
+  };
+}
+
 export function LinkedList() {
   let list = {};
-  const sampleList = {
-    value: 1,
-    next: {
-      value: 2,
-      next: {
-        value: 3,
-        next: {
-          value: 4,
-          next: null,
-        },
-      },
-    },
-  };
 
   // Private helper methods
   function makeList(values) {
@@ -28,7 +22,7 @@ export function LinkedList() {
 
   // Auxillary methods
   const getList = () => list;
-  const initSample = () => (list = sampleList);
+  const initSample = () => (list = makeList([1, 2, 3, 4]));
   const reset = () => (list = {});
 
   // Required methods
@@ -131,7 +125,7 @@ export function LinkedList() {
   };
 
   // Extra Credit
-  const insertAt = (index, ...values) => {
+  const insertAt0 = (index, ...values) => {
     if (index < 0 || index > size()) {
       throw new RangeError("Index out of bound.");
     } else if (size() === 0) {
@@ -141,6 +135,48 @@ export function LinkedList() {
       array.splice(index, 0, ...values);
       list = makeList(array);
     }
+  };
+
+  const insertAt = (index, ...values) => {
+    function stitch(list1, list2) {
+      let current = list1;
+      while (true) {
+        if (current.next === null) {
+          current.next = list2;
+          break;
+        } else {
+          current = current.next;
+        }
+      }
+    }
+
+    if (index < 0 || index > size()) {
+      throw new RangeError("Index out of bound.");
+    }
+
+    const insertedList = makeList(values);
+
+    if (size() === 0) {
+      list = insertedList;
+      return;
+    }
+
+    if (index === 0) {
+      stitch(insertedList, list);
+      list = insertedList;
+      return;
+    }
+
+    let current = list;
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
+
+    const restOfList = current.next;
+    current.next = null;
+
+    stitch(list, insertedList);
+    stitch(list, restOfList);
   };
 
   const removeAt = (index) => {
@@ -171,12 +207,5 @@ export function LinkedList() {
     toString,
     insertAt,
     removeAt,
-  };
-}
-
-export function Node(value, nextNode) {
-  return {
-    value: value || null,
-    next: nextNode || null,
   };
 }
