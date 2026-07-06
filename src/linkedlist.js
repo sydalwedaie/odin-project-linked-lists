@@ -1,3 +1,5 @@
+import { makeList, makeArray, stitchLists } from "./helpers.js";
+
 export function Node(value, nextNode) {
   return {
     value: value || null,
@@ -8,23 +10,10 @@ export function Node(value, nextNode) {
 export function LinkedList() {
   let list = {};
 
-  // Private helper methods
-  function makeList(values) {
-    if (values.length === 0) return {};
-    if (values.length === 1) return Node(values[0]);
-    const nextNode = makeList(values.slice(1));
-    return Node(values[0], nextNode);
-  }
-
-  function makeArray(list) {
-    if (list.next === null) return [list.value];
-    return [list.value, makeArray(list.next)].flat();
-  }
-
   // Auxillary methods
   const getList = () => list;
-  const initSample = () => (list = makeList([1, 2, 3, 4]));
-  const reset = () => (list = {});
+  const initSample = () => (list = makeList(1, 2, 3, 4));
+  const clear = () => (list = {});
 
   // Required methods
   const append = (value) => {
@@ -130,32 +119,20 @@ export function LinkedList() {
     if (index < 0 || index > size()) {
       throw new RangeError("Index out of bound.");
     } else if (size() === 0) {
-      list = makeList(values);
+      list = makeList(...values);
     } else {
       const array = makeArray(list);
       array.splice(index, 0, ...values);
-      list = makeList(array);
+      list = makeList(...array);
     }
   };
 
   const insertAt = (index, ...values) => {
-    function stitch(list1, list2) {
-      let current = list1;
-      while (true) {
-        if (current.next === null) {
-          current.next = list2;
-          break;
-        } else {
-          current = current.next;
-        }
-      }
-    }
-
     if (index < 0 || index > size()) {
       throw new RangeError("Index out of bound.");
     }
 
-    const insertedList = makeList(values);
+    const insertedList = makeList(...values);
 
     if (size() === 0) {
       list = insertedList;
@@ -163,7 +140,7 @@ export function LinkedList() {
     }
 
     if (index === 0) {
-      stitch(insertedList, list);
+      stitchLists(insertedList, list);
       list = insertedList;
       return;
     }
@@ -176,8 +153,8 @@ export function LinkedList() {
     const restOfList = current.next;
     current.next = null;
 
-    stitch(list, insertedList);
-    stitch(list, restOfList);
+    stitchLists(list, insertedList);
+    stitchLists(list, restOfList);
   };
 
   const removeAt = (index) => {
@@ -188,14 +165,14 @@ export function LinkedList() {
     } else {
       const array = makeArray(list);
       array.splice(index, 1);
-      list = makeList(array);
+      list = makeList(...array);
     }
   };
 
   return {
     getList,
     initSample,
-    reset,
+    clear,
     append,
     prepend,
     size,

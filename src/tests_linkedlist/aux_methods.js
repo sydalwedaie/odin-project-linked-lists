@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import { LinkedList } from "../modules.js";
+import { LinkedList } from "../linkedlist.js";
 import { makeList } from "../helpers.js";
 
 describe("Test internal auxillary methods", () => {
@@ -18,7 +18,7 @@ describe("Test internal auxillary methods", () => {
   test("test reset", () => {
     const list = LinkedList();
     list.initSample();
-    list.reset();
+    list.clear();
     expect(list.getList()).toEqual({});
   });
 });

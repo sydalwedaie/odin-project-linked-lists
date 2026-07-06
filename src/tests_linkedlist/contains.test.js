@@ -1,10 +1,10 @@
 import { describe, test, expect } from "@jest/globals";
-import { LinkedList, Node } from "../modules.js";
+import { LinkedList, Node } from "../linkedlist.js";
 
 describe("Test contains", () => {
   const list = LinkedList();
   afterEach(() => {
-    list.reset();
+    list.clear();
   });
 
   test("test on empty list", () => {

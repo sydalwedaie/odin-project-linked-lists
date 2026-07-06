@@ -1,12 +1,12 @@
 import { describe, test, expect } from "@jest/globals";
-import { LinkedList, Node } from "../modules.js";
+import { LinkedList, Node } from "../linkedlist.js";
 import { makeList } from "../helpers.js";
 
 describe("Test insertAt", () => {
   const list = LinkedList();
 
   afterEach(() => {
-    list.reset();
+    list.clear();
   });
 
   test("test one value on empty list", () => {

@@ -1,11 +1,11 @@
 import { describe, test, expect } from "@jest/globals";
-import { LinkedList, Node } from "../modules.js";
+import { LinkedList, Node } from "../linkedlist.js";
 import { makeList } from "../helpers.js";
 
 describe("Test pop", () => {
   const list = LinkedList();
   afterEach(() => {
-    list.reset();
+    list.clear();
   });
 
   test("test on empty list", () => {
